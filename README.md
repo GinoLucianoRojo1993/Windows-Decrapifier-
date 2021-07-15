@@ -56,9 +56,9 @@ It Decrapify Windows, And Debloat Windows.
 1. Download/clone this repo.
 2. Right Click on start button & open Powershell(Admin)
 3. This step depends on where you have downloaded the script. We will assume that you have downloaded this scipt in downloads.
-   cd ..
-   cd C:\Users\<Your windows username>\Downloads\
-   cd .\Windows-Decrapifier-main\Windows-Decrapifier-main\
+ cd..
+ cd C:\Users\<Your windows username>\Downloads\
+ cd .\Windows-Decrapifier-main\Windows-Decrapifier-main\
 4. Type the following commands :
    Set-ExecutionPolicy Unrestricted
 .\decrapify.ps1
