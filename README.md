@@ -54,11 +54,12 @@ It Decrapify Windows, And Debloat Windows.
 
 # How to Use:
 1. Download/clone this repo.
-2. Right Click on start button & open Powershell(Admin)
-3. This step depends on where you have downloaded the script. We will assume that you have downloaded this scipt in downloads.
- cd ..
- cd C:\Users\<Your windows username>\Downloads\
+2. Right Click on start button & open Powershell Admin.
+3. This step depends on where you have downloaded the script. We will assume that you have downloaded this scipt in desktop, Enter These Commands:
+ cd..
+ cd C:\Users\<Your windows username>\Desktop\
  cd .\Windows-Decrapifier-main\Windows-Decrapifier-main\
+
 4. Type the following commands :
   Set-ExecutionPolicy Unrestricted
   .\decrapify.ps1  
