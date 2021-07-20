@@ -1,7 +1,7 @@
 ##########
 # Win10 Initial Setup Script
 # Author: 2D2021FutureMicrosoft
-# Version: 1.4, 2016-01-16
+# Version: 1.9, 2021-01-16
 ##########
 
 # Ask for elevated permissions if required
@@ -16,6 +16,306 @@ If (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]:
 # Privacy Settings
 ##########
 
+
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\force-mkdir.psm1
+force-mkdir "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection"
+Set-ItemProperty "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" "AllowTelemetry" 0
+$hosts_file = "$env:systemroot\System32\drivers\etc\hosts"
+$domains = @(
+    "184-86-53-99.deploy.static.akamaitechnologies.com"
+    "a-0001.a-msedge.net"
+    "a-0002.a-msedge.net"
+    "a-0003.a-msedge.net"
+    "a-0004.a-msedge.net"
+    "a-0005.a-msedge.net"
+    "a-0006.a-msedge.net"
+    "a-0007.a-msedge.net"
+    "a-0008.a-msedge.net"
+    "a-0009.a-msedge.net"
+    "a1621.g.akamai.net"
+    "a1856.g2.akamai.net"
+    "a1961.g.akamai.net"
+    #"a248.e.akamai.net"           
+    "a978.i6g1.akamai.net"
+    "a.ads1.msn.com"
+    "a.ads2.msads.net"
+    "a.ads2.msn.com"
+    "ac3.msn.com"
+    "ad.doubleclick.net"
+    "adnexus.net"
+    "adnxs.com"
+    "ads1.msads.net"
+    "ads1.msn.com"
+    "ads.msn.com"
+    "aidps.atdmt.com"
+    "aka-cdn-ns.adtech.de"
+    "a-msedge.net"
+    "any.edge.bing.com"
+    "a.rad.msn.com"
+    "az361816.vo.msecnd.net"
+    "az512334.vo.msecnd.net"
+    "b.ads1.msn.com"
+    "b.ads2.msads.net"
+    "bingads.microsoft.com"
+    "b.rad.msn.com"
+    "bs.serving-sys.com"
+    "c.atdmt.com"
+    "cdn.atdmt.com"
+    "cds26.ams9.msecn.net"
+    "choice.microsoft.com"
+    "choice.microsoft.com.nsatc.net"
+    "c.msn.com"                                 
+    "compatexchange.cloudapp.net"
+    "corpext.msitadfs.glbdns2.microsoft.com"
+    "corp.sts.microsoft.com"
+    "cs1.wpc.v0cdn.net"
+    "db3aqu.atdmt.com"
+    "df.telemetry.microsoft.com"
+    "diagnostics.support.microsoft.com"
+    "e2835.dspb.akamaiedge.net"
+    "e7341.g.akamaiedge.net"
+    "e7502.ce.akamaiedge.net"
+    "e8218.ce.akamaiedge.net"
+    "ec.atdmt.com"
+    "fe2.update.microsoft.com.akadns.net"
+    "feedback.microsoft-hohm.com"
+    "feedback.search.microsoft.com"
+    "feedback.windows.com"
+    "flex.msn.com"
+    "g.msn.com"
+    "h1.msn.com"
+    "h2.msn.com"
+    "hostedocsp.globalsign.com"
+    "i1.services.social.microsoft.com"
+    "i1.services.social.microsoft.com.nsatc.net"
+    "ipv6.msftncsi.com"
+    "ipv6.msftncsi.com.edgesuite.net"
+    "lb1.www.ms.akadns.net"
+    "live.rads.msn.com"
+    "m.adnxs.com"
+    "msedge.net"
+    "msftncsi.com"
+    "msnbot-65-55-108-23.search.msn.com"
+    "msntest.serving-sys.com"
+    "oca.telemetry.microsoft.com"
+    "oca.telemetry.microsoft.com.nsatc.net"
+    "onesettings-db5.metron.live.nsatc.net"
+    "pre.footprintpredict.com"
+    "preview.msn.com"
+    "rad.live.com"
+    "rad.msn.com"
+    "redir.metaservices.microsoft.com"
+    "reports.wes.df.telemetry.microsoft.com"
+    "schemas.microsoft.akadns.net"
+    "secure.adnxs.com"
+    "secure.flashtalking.com"
+    "services.wes.df.telemetry.microsoft.com"
+    "settings-sandbox.data.microsoft.com"
+    "settings-win.data.microsoft.com"
+    "sls.update.microsoft.com.akadns.net"
+    "sqm.df.telemetry.microsoft.com"
+    "sqm.telemetry.microsoft.com"
+    "sqm.telemetry.microsoft.com.nsatc.net"
+    "ssw.live.com"
+    "static.2mdn.net"
+    "statsfe1.ws.microsoft.com"
+    "statsfe2.update.microsoft.com.akadns.net"
+    "statsfe2.ws.microsoft.com"
+    "survey.watson.microsoft.com"
+    "telecommand.telemetry.microsoft.com"
+    "telecommand.telemetry.microsoft.com.nsatc.net"
+    "telemetry.appex.bing.net"
+    "telemetry.appex.bing.net:443"
+    "telemetry.microsoft.com"
+    "telemetry.urs.microsoft.com"
+    "vortex-bn2.metron.live.com.nsatc.net"
+    "vortex-cy2.metron.live.com.nsatc.net"
+    "vortex.data.microsoft.com"
+    "vortex-sandbox.data.microsoft.com"
+    "vortex-win.data.microsoft.com"
+    "cy2.vortex.data.microsoft.com.akadns.net"
+    "watson.live.com"
+    "watson.microsoft.com"
+    "watson.ppe.telemetry.microsoft.com"
+    "watson.telemetry.microsoft.com"
+    "watson.telemetry.microsoft.com.nsatc.net"
+    "wes.df.telemetry.microsoft.com"
+    "win10.ipv6.microsoft.com"
+    "www.bingads.microsoft.com"
+    "www.go.microsoft.akadns.net"
+    "www.msftncsi.com"
+
+    # extra
+    "fe2.update.microsoft.com.akadns.net"
+    "s0.2mdn.net"
+    "statsfe2.update.microsoft.com.akadns.net",
+    "survey.watson.microsoft.com"
+    "view.atdmt.com"
+    "watson.microsoft.com",
+    "watson.ppe.telemetry.microsoft.com"
+    "watson.telemetry.microsoft.com",
+    "watson.telemetry.microsoft.com.nsatc.net"
+    "wes.df.telemetry.microsoft.com"
+    "ui.skype.com",                            
+    "pricelist.skype.com"                       
+    "apps.skype.com"                            
+    "m.hotmail.com"
+    "s.gateway.messenger.live.com"              
+)
+Write-Output "" | Out-File -Encoding ASCII -Append $hosts_file
+foreach ($domain in $domains) {
+    if (-Not (Select-String -Path $hosts_file -Pattern $domain)) {
+        Write-Output "0.0.0.0 $domain" | Out-File -Encoding ASCII -Append $hosts_file
+    }
+}
+cls
+$services = @(
+    "diagnosticshub.standardcollector.service" # Microsoft (R) Diagnostics Hub Standard Collector Service
+    "DiagTrack"                                # Diagnostics Tracking Service
+    "dmwappushservice"                         # WAP Push Message Routing Service (see known issues)
+    "HomeGroupListener"                        # HomeGroup Listener
+    "HomeGroupProvider"                        # HomeGroup Provider
+    "lfsvc"                                    # Geolocation Service
+    "MapsBroker"                               # Downloaded Maps Manager
+    "NetTcpPortSharing"                        # Net.Tcp Port Sharing Service
+    "RemoteAccess"                             # Routing and Remote Access
+    "RemoteRegistry"                           # Remote Registry
+    "SharedAccess"                             # Internet Connection Sharing (ICS)
+    "TrkWks"                                   # Distributed Link Tracking Client
+    "WbioSrvc"                                 # Windows Biometric Service
+    #"WlanSvc"                                 # WLAN AutoConfig
+    "WMPNetworkSvc"                            # Windows Media Player Network Sharing Service
+    "wscsvc"                                   # Windows Security Center Service
+    #"WSearch"                                 # Windows Search
+    "XblAuthManager"                           # Xbox Live Auth Manager
+    "XblGameSave"                              # Xbox Live Game Save Service
+    "XboxNetApiSvc"                            # Xbox Live Networking Service
+
+    # Services which cannot be disabled
+    #"WdNisSvc"
+)
+
+foreach ($service in $services) {
+    Write-Output "Trying to disable $service"
+    Get-Service -Name $service | Set-Service -StartupType Disabled
+}
+cls
+Write-Output "Adding telemetry ips to firewall"
+$ips = @(
+    "134.170.30.202"
+    "137.116.81.24"
+    "157.56.106.189"
+    "184.86.53.99"
+    "2.22.61.43"
+    "2.22.61.66"
+    "204.79.197.200"
+    "23.218.212.69"
+    "65.39.117.230"
+    "65.52.108.33"
+    "65.55.108.23"
+    "64.4.54.254"
+)
+Remove-NetFirewallRule -DisplayName "Block Telemetry IPs" -ErrorAction SilentlyContinue
+New-NetFirewallRule -DisplayName "Block Telemetry IPs" -Direction Outbound `
+    -Action Block -RemoteAddress ([string[]]$ips)
+cls
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\force-mkdir.psm1
+Import-Module -DisableNameChecking $PSScriptRoot\..\lib\take-own.psm1
+
+Write-Output "Elevating priviledges for this process"
+do {} until (Elevate-Privileges SeTakeOwnershipPrivilege)
+
+Write-Output "Defuse Windows search settings"
+Set-WindowsSearchSetting -EnableWebResultsSetting $false
+
+Write-Output "Set general privacy options"
+Set-ItemProperty "HKCU:\Control Panel\International\User Profile" "HttpAcceptLanguageOptOut" 1
+force-mkdir "HKCU:\Printers\Defaults"
+Set-ItemProperty "HKCU:\Printers\Defaults" "NetID" "{00000000-0000-0000-0000-000000000000}"
+force-mkdir "HKCU:\SOFTWARE\Microsoft\Input\TIPC"
+Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Input\TIPC" "Enabled" 0
+force-mkdir "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo"
+Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo" "Enabled" 0
+Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppHost" "EnableWebContentEvaluation" 0
+
+Write-Output "Disable synchronisation of settings"
+Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\SettingSync" "BackupPolicy" 0x3c
+Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\SettingSync" "DeviceMetadataUploaded" 0
+Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\SettingSync" "PriorLogons" 1
+$groups = @(
+    "Accessibility"
+    "AppSync"
+    "BrowserSettings"
+    "Credentials"
+    "DesktopTheme"
+    "Language"
+    "PackageState"
+    "Personalization"
+    "StartLayout"
+    "Windows"
+)
+foreach ($group in $groups) {
+    force-mkdir "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\SettingSync\Groups\$group"
+    Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\SettingSync\Groups\$group" "Enabled" 0
+}
+
+Write-Output "Set privacy policy accepted state to 0"
+force-mkdir "HKCU:\SOFTWARE\Microsoft\Personalization\Settings"
+Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Personalization\Settings" "AcceptedPrivacyPolicy" 0
+
+Write-Output "Do not scan contact informations"
+force-mkdir "HKCU:\SOFTWARE\Microsoft\InputPersonalization\TrainedDataStore"
+Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\InputPersonalization\TrainedDataStore" "HarvestContacts" 0
+
+Write-Output "Inking and typing settings"
+force-mkdir "HKCU:\SOFTWARE\Microsoft\InputPersonalization"
+Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\InputPersonalization" "RestrictImplicitInkCollection" 1
+Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\InputPersonalization" "RestrictImplicitTextCollection" 1
+
+Write-Output "Microsoft Edge settings"
+force-mkdir "HKCU:\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppContainer\Storage\microsoft.microsoftedge_8wekyb3d8bbwe\MicrosoftEdge\Main"
+Set-ItemProperty "HKCU:\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppContainer\Storage\microsoft.microsoftedge_8wekyb3d8bbwe\MicrosoftEdge\Main" "DoNotTrack" 1
+force-mkdir "HKCU:\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppContainer\Storage\microsoft.microsoftedge_8wekyb3d8bbwe\MicrosoftEdge\User\Default\SearchScopes"
+Set-ItemProperty "HKCU:\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppContainer\Storage\microsoft.microsoftedge_8wekyb3d8bbwe\MicrosoftEdge\User\Default\SearchScopes" "ShowSearchSuggestionsGlobal" 0
+force-mkdir "HKCU:\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppContainer\Storage\microsoft.microsoftedge_8wekyb3d8bbwe\MicrosoftEdge\FlipAhead"
+Set-ItemProperty "HKCU:\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppContainer\Storage\microsoft.microsoftedge_8wekyb3d8bbwe\MicrosoftEdge\FlipAhead" "FPEnabled" 0
+force-mkdir "HKCU:\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppContainer\Storage\microsoft.microsoftedge_8wekyb3d8bbwe\MicrosoftEdge\PhishingFilter"
+Set-ItemProperty "HKCU:\SOFTWARE\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\AppContainer\Storage\microsoft.microsoftedge_8wekyb3d8bbwe\MicrosoftEdge\PhishingFilter" "EnabledV9" 0
+
+Write-Output "Disable background access of default apps"
+foreach ($key in (Get-ChildItem "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications")) {
+    Set-ItemProperty ("HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications\" + $key.PSChildName) "Disabled" 1
+}
+
+Write-Output "Denying device access"
+Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global\LooselyCoupled" "Type" "LooselyCoupled"
+Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global\LooselyCoupled" "Value" "Deny"
+Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global\LooselyCoupled" "InitialAppValue" "Unspecified"
+foreach ($key in (Get-ChildItem "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global")) {
+    if ($key.PSChildName -EQ "LooselyCoupled") {
+        continue
+    }
+    Set-ItemProperty ("HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global\" + $key.PSChildName) "Type" "InterfaceClass"
+    Set-ItemProperty ("HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global\" + $key.PSChildName) "Value" "Deny"
+    Set-ItemProperty ("HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeviceAccess\Global\" + $key.PSChildName) "InitialAppValue" "Unspecified"
+}
+
+Write-Output "Disable location sensor"
+force-mkdir "HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Sensor\Permissions\{BFA794E4-F964-4FDB-90F6-51056BFE4B44}"
+Set-ItemProperty "HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Sensor\Permissions\{BFA794E4-F964-4FDB-90F6-51056BFE4B44}" "SensorPermissionState" 0
+
+Write-Output "Disable submission of Windows Defender findings (w/ elevated privileges)"
+Takeown-Registry("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows Defender\Spynet")
+Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows Defender\Spynet" "SpyNetReporting" 0       # write-protected even after takeown ?!
+Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows Defender\Spynet" "SubmitSamplesConsent" 0
+
+Write-Output "Do not share wifi networks"
+$user = New-Object System.Security.Principal.NTAccount($env:UserName)
+$sid = $user.Translate([System.Security.Principal.SecurityIdentifier]).value
+force-mkdir ("HKLM:\SOFTWARE\Microsoft\WcmSvc\wifinetworkmanager\features\" + $sid)
+Set-ItemProperty ("HKLM:\SOFTWARE\Microsoft\WcmSvc\wifinetworkmanager\features\" + $sid) "FeatureStates" 0x33c
+Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\WcmSvc\wifinetworkmanager\features" "WiFiSenseCredShared" 0
+Set-ItemProperty "HKLM:\SOFTWARE\Microsoft\WcmSvc\wifinetworkmanager\features" "WiFiSenseOpen" 0
 # Disable Telemetry
 Write-Host "Disabling Telemetry..."
 Set-ItemProperty -Path "HKLM:\Software\Policies\Microsoft\Windows\DataCollection" -Name "AllowTelemetry" -Type DWord -Value 0
